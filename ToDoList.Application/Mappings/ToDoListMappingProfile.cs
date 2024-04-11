@@ -16,7 +16,7 @@ namespace ToDoList.Application.Mappings
             CreateMap<ToDoItemDto, ToDoList.Domain.Entities.ToDoItem>()
                 .ForMember(m => m.ItemDetails, opt => opt.MapFrom(src => new ToDoItemDetails()
                 {
-                    Descripton = src.Descripton,
+                    Descripton = src.Description,
                     Deadline = src.Deadline,
                     Category = src.Category
                 }));

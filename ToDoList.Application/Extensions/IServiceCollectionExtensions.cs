@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using ToDoList.Application.Mappings;
-using ToDoList.Application.Services;
+using ToDoList.Application.ToDoItem.Commands.CreateToDoItem;
 
 namespace ToDoList.Application.Extensions
 {
@@ -13,8 +11,13 @@ namespace ToDoList.Application.Extensions
     {
         public static void AddApplication(this IServiceCollection services)
         {
-            services.AddScoped<IToDoListService, ToDoListService>();
+            services.AddMediatR(typeof(CreateToDoItemCommand));
+
             services.AddAutoMapper(typeof(ToDoListMappingProfile));
+
+            services.AddValidatorsFromAssemblyContaining<CreateToDoItemCommandValidator>()
+                   .AddFluentValidationAutoValidation()
+                   .AddFluentValidationClientsideAdapters();
         }
     }
 }

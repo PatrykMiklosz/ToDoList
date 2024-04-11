@@ -11,6 +11,7 @@ namespace ToDoList.Domain.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
-        public ToDoItemDetails ItemDetails { get; set; } 
+        public ToDoItemDetails ItemDetails { get; set; }
+        public bool IsCompleted { get; set; } = false;
     }
 }

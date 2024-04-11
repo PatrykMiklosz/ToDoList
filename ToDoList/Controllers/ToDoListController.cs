@@ -1,25 +1,20 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using ToDoList.Application.Services;
+﻿using AutoMapper;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using ToDoList.Application.ToDoItem;
-using ToDoList.Domain.Entities;
-using ToDoList.Domain.Interfaces;
+using ToDoList.Application.ToDoItem.Commands.CreateToDoItem;
 
 namespace ToDoList.MVC.Controllers
 {
     public class ToDoListController : Controller
     {
-        private readonly IToDoListService _toDoListService;
+        private readonly IMediator _mediator;
+        private readonly IMapper _mapper;
 
-        public ToDoListController(IToDoListService toDoListService)
+        public ToDoListController(IMediator mediator, IMapper mapper)
         {
-            toDoListService = toDoListService;
-        }
-
-        [HttpPost]
-        public async Task <IActionResult> Create(ToDoItemDto item)
-        {
-            await _toDoListService.Create(item);
-            return View();
+            _mediator = mediator;
+            _mapper = mapper;
         }
     }
 }

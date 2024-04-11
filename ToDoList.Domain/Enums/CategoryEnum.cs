@@ -12,6 +12,7 @@ namespace ToDoList.Domain.Enums
         Hobby,
         Health,
         Education,
-        Relations
+        Relations,
+        Others
     }
 }
