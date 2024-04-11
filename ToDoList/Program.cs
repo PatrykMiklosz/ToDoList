@@ -1,5 +1,5 @@
 using ToDoList.Infrastructure.Extensions;
-
+using ToDoList.Application.Extensions;
 namespace ToDoList
 {
     public class Program
@@ -12,6 +12,7 @@ namespace ToDoList
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddInfrastructure(builder.Configuration);
+            builder.Services.AddApplication();
 
             var app = builder.Build();
 

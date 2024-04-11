@@ -7,7 +7,9 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using ToDoList.Domain.Interfaces;
 using ToDoList.Infrastructure.Persistence;
+using ToDoList.Infrastructure.Repositories;
 
 namespace ToDoList.Infrastructure.Extensions
 {
@@ -17,6 +19,8 @@ namespace ToDoList.Infrastructure.Extensions
         {
             services.AddDbContext<ToDoListDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("ToDoList")));
+
+            services.AddScoped<IToDoListRepository, ToDoListRepository>();
         }
     }
 }

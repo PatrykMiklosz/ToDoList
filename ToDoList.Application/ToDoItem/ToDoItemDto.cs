@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using ToDoList.Domain.Enums;
 
-namespace ToDoList.Domain.Entities
+namespace ToDoList.Application.ToDoItem
 {
-    public class ToDoItemDetails
+    public class ToDoItemDto
     {
-        public string Descripton {  get; set; }
+        public string Name {  get; set; }
+        public string Descripton { get; set; }
         public CategoryEnum Category { get; set; }
         public DateTime Deadline { get; set; }
     }
