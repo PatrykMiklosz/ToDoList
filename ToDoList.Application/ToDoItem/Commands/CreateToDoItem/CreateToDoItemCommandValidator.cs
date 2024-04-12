@@ -15,8 +15,9 @@ namespace ToDoList.Application.ToDoItem.Commands.CreateToDoItem
                 .NotEmpty()
                 .MaximumLength(100).WithMessage("Name should have maxium of 100 characters");
 
-            RuleFor(i => i.Category)
-                .NotEmpty().WithMessage("Please select category");
+            RuleFor(i => i.Date)
+                .GreaterThan(DateTime.UtcNow.AddDays(-1)).WithMessage($"Date must be greater or equal than {DateTime.Today}")
+                .LessThanOrEqualTo(new DateTime(2025, 1, 1)).WithMessage("Pick a date in 2024");
         }
     }
 }

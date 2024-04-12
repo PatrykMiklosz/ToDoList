@@ -12,8 +12,8 @@ using ToDoList.Infrastructure.Persistence;
 namespace ToDoList.Infrastructure.Migrations
 {
     [DbContext(typeof(ToDoListDbContext))]
-    [Migration("20240411164154_Init")]
-    partial class Init
+    [Migration("20240412125951_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,15 @@ namespace ToDoList.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -43,25 +50,6 @@ namespace ToDoList.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DoToItems");
-                });
-
-            modelBuilder.Entity("ToDoList.Domain.Entities.ToDoItem", b =>
-                {
-                    b.OwnsOne("ToDoList.Domain.Entities.ToDoItemDetails", "ItemDetails", b1 =>
-                        {
-                            b1.Property<int>("ToDoItemId")
-                                .HasColumnType("int");
-
-                            b1.HasKey("ToDoItemId");
-
-                            b1.ToTable("DoToItems");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ToDoItemId");
-                        });
-
-                    b.Navigation("ItemDetails")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

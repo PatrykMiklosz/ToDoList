@@ -1,21 +1,18 @@
-﻿@model IEnumerable<ToDoList.Application.ToDoItem.ToDoItemDto>
-@{
-    ViewData["Title"] = "Home Page";
-}
-<div class="text-center">
-    <h1 class="display-4">Welcome to ToDoList App</h1>
-</div>
+﻿@using Microsoft.IdentityModel.Tokens
+@model IEnumerable<ToDoList.Application.ToDoItem.ToDoItemDto>
 
-@if(Model != null)
-{
-    <div class="row">
-    @foreach (var item in Model)
+<div class="row">
+    @if(Model.IsNullOrEmpty())
+    {
+      <h1>You have no tasks today</h1>    
+    }
+    else
+        @foreach (var item in Model)
     {
         <div class="card m-3" style="width: 18rem; position: relative;">
             <div class="card-body">
                 <h5 class="card-title">@item.Name</h5>
-                    <p class="card-text">@item.Description</p>
-                    <p class="card-text">@item.Date.ToString("dd MMMM yyyy")</p>
+                <p class="card-text">@item.Description</p>
                 <div class="icons-container" style="position: absolute; top: 10px; right: 10px;">
                     <a class="btn-icon" asp-controller="ToDoItem" asp-action="Delete" asp-route-id="@item.Id">
                         <i class="fas fa-trash"></i>
@@ -28,6 +25,10 @@
         </div>
     }
 </div>
+
+
+@{
+    ViewData["Title"] = "Details";
 }
 <style>
     .btn-icon {
@@ -43,4 +44,3 @@
         justify-content: flex-end;
     }
 </style>
-

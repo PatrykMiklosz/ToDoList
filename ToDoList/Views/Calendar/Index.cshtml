@@ -1,0 +1,114 @@
+﻿@using ToDoList.Application.ToDoItem;
+@model int
+
+    @{
+        int year = DateTime.Now.Year;
+        int month = Model == 0 ? DateTime.Now.Month : Model;
+
+    DateTime selectedDate = new DateTime(year, month, 1);
+
+        DateTime firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
+
+        int daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
+
+        int dayOfWeek = ((int)firstDayOfMonth.DayOfWeek - 1 + daysInWeek) % daysInWeek;
+
+        int daysInMonth = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
+
+        DateTime prevMonth = firstDayOfMonth.AddMonths(-1);
+        DateTime nextMonth = firstDayOfMonth.AddMonths(1);
+    }
+
+    <div class="calendar-navigation">
+
+    <a class="fas fa-arrow-left" asp-controller="Calendar" asp-action="Index" asp-route-month="@prevMonth.Month" style="text-decoration: none; margin-right: 10px"></a>
+
+        <span>@selectedDate.ToString("MMMM yyyy")</span>
+    <a class="fas fa-arrow-right" asp-controller="Calendar" asp-action="Index" asp-route-month="@nextMonth.Month" style="text-decoration: none; margin-left: 10px"></a>
+
+    </div>
+
+<div class="calendar-container">
+    <table class="calendar">
+        <thead>
+            <tr>
+                <th>Pon</th>
+                <th>Wt</th>
+                <th>Śr</th>
+                <th>Czw</th>
+                <th>Pt</th>
+                <th>Sob</th>
+                <th>Nd</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                int currentDay = 1 - dayOfWeek;
+                for (int week = 0; week < 6; week++)
+                {
+                    <tr>
+                        @for (int day = 0; day < 7; day++)
+                        {
+                            string tdClass = currentDay >= 1 && currentDay <= daysInMonth ? "clickable" : "";
+                            <td class="@tdClass" data-day="@currentDay">
+                                @if (currentDay >= 1 && currentDay <= daysInMonth)
+                                {
+                                    @currentDay
+                                }
+                            </td>
+                            currentDay++;
+                        }
+                    </tr>
+                    if (currentDay > daysInMonth)
+                    {
+                        break;
+                    }
+                }
+            }
+        </tbody>
+    </table>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var cells = document.querySelectorAll('.clickable');
+        cells.forEach(function (cell) {
+            cell.addEventListener('click', function () {
+                var day = this.getAttribute('data-day');
+                window.location.href = '@Url.Action("DayDetails")' + '/' + @selectedDate.Month + '/' + day;
+            });
+        });
+    });
+</script>
+
+<style>
+
+    .calendar-navigation {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .calendar-container {
+        width: 100%;
+        margin: auto;
+    }
+
+    .calendar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .calendar th, .calendar td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .calendar td {
+            height: 50px;
+        }
+    .clickable {
+        cursor: pointer;
+    }
+</style>
+

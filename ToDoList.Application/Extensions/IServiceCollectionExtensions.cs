@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using ToDoList.Application.Mappings;
 using ToDoList.Application.ToDoItem.Commands.CreateToDoItem;
+using ToDoList.Application.ToDoItem.Commands.EditToDoItem;
 
 namespace ToDoList.Application.Extensions
 {

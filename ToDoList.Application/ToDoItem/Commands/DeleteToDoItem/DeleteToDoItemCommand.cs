@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ToDoList.Application.ToDoItem.Queries.GetAllToDoItems
+namespace ToDoList.Application.ToDoItem.Commands.DeleteToDoItem
 {
-    public class GetAllToDoItemsQuery : IRequest<IEnumerable<ToDoItemDto>>
+    public class DeleteToDoItemCommand : ToDoItemDto, IRequest
     {
-
     }
 }

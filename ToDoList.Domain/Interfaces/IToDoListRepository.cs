@@ -10,5 +10,10 @@ namespace ToDoList.Domain.Interfaces
     public interface IToDoListRepository
     {
         Task Create(ToDoItem item);
+        Task <IEnumerable<ToDoItem>> GetAllByDate(int month, int day);
+        Task<ToDoItem> GetToDoItemById(int id);
+        Task<IEnumerable<ToDoItem>> GetAll();
+        Task Delete(ToDoItem item);
+        Task Commit();
     }
 }

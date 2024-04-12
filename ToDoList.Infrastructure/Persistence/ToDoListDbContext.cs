@@ -15,10 +15,5 @@ namespace ToDoList.Infrastructure.Persistence
 
         }
         public DbSet<ToDoItem> DoToItems { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ToDoItem>()
-                .OwnsOne(i => i.ItemDetails);
-        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,24 @@ namespace ToDoList.Infrastructure.Repositories
         {
             _dbContext.Add(item);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Domain.Entities.ToDoItem>> GetAllByDate(int month, int day)
+            => await _dbContext.DoToItems.Where(x => x.Date.Month.Equals(month) && x.Date.Day.Equals(day)).ToListAsync();
+
+        public async Task<ToDoItem> GetToDoItemById(int id) 
+            => await _dbContext.DoToItems.Where(x => x.Id == id).FirstOrDefaultAsync();
+
+        public async Task<IEnumerable<ToDoItem>> GetAll()
+            => await _dbContext.DoToItems.ToListAsync();
+
+        public Task Commit()
+            => _dbContext.SaveChangesAsync();
+
+        public async Task Delete(ToDoItem item)
+        {
+            _dbContext.DoToItems.Remove(item);
+            await Commit();
         }
     }
 }
