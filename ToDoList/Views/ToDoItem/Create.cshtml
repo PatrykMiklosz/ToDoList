@@ -1,7 +1,4 @@
-﻿@using ToDoList.Application.ToDoItem;
-@model ToDoItemDto
-
-
+﻿@model ToDoItemDto
 
 <h1>Create ToDoItem</h1>
 
@@ -28,6 +25,7 @@
 
             <div class="form-group mb-3">
                 <input type="submit" value="Create" class="btn btn-primary">
+                <button class="btn btn-info" onclick="goBack()">Back</button>
             </div>
         </form>
     </div>
@@ -35,6 +33,7 @@
 
 @section Scripts {
     @{
+        <script src="~/js/site.js"></script>
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }

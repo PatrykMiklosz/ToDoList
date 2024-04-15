@@ -6,41 +6,39 @@
     <h1 class="display-4">Welcome to ToDoList App</h1>
 </div>
 
-@if(Model != null)
+@if (Model != null)
 {
     <div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="card m-3" style="width: 18rem; position: relative;">
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
+        @foreach (var item in Model)
+        {
+            <div class="card m-3" style="width: 18rem; position: relative;">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Name</h5>
                     <p class="card-text">@item.Description</p>
                     <p class="card-text">@item.Date.ToString("dd MMMM yyyy")</p>
-                <div class="icons-container" style="position: absolute; top: 10px; right: 10px;">
-                    <a class="btn-icon" asp-controller="ToDoItem" asp-action="Delete" asp-route-id="@item.Id">
-                        <i class="fas fa-trash"></i>
-                    </a>
-                    <a class="btn-icon" asp-controller="ToDoItem" asp-action="Edit" asp-route-id="@item.Id">
-                        <i class="fas fa-pencil-alt"></i>
-                    </a>
+                    <div class="icons-container" style="position: absolute; top: 10px; right: 10px;">
+                        <a class="btn-icon" asp-controller="ToDoItem" asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="fas fa-pencil-alt"></i>
+                        </a>
+                        <a class="btn-icon open-modal" data-id="@item.Id" data-bs-toggle="modal" data-bs-target="#deleteToDoItem">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 }
-<style>
-    .btn-icon {
-        background: none;
-        border: none;
-        cursor: pointer;
-        margin-left: 5px;
-    }
 
-    .icons-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-    }
-</style>
+<div class="modal fade" id="deleteToDoItem" tabindex="1" aria-labelledby="deleteToDoItem" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="deleteToDoItem">Are you sure you want to delete this task?</h2>
+            </div>
+            <a id="confirm-delete" class="btn btn-primary">Yes</a>
+            <button type="button" class="btn btn-info" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+</div>
 

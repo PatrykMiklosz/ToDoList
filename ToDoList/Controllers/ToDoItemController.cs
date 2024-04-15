@@ -56,11 +56,12 @@ namespace ToDoList.MVC.Controllers
             return View(model);
         }
 
-        [Route("ToDoItem/{id}/Delete")]
+        [Route("ToDoItem/Delete/{id}")]
         public async Task<IActionResult> Delete(int id, DeleteToDoItemCommand command)
         {
-            this.SetNotification("success", $"Deleted item: {command.Name}");
+            this.SetNotification("success", $"Item deleted!");
             await _mediator.Send(command);
+
             return RedirectToAction(nameof(Index), "Home");
         }
     }

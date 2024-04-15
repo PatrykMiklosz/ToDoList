@@ -1,4 +1,23 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿function goBack() {
+    if (window.history.length > 1) {
+        window.history.go(-1); 
+    } else {
+        window.location.href = "/Home"; 
+    }
+};
 
-// Write your JavaScript code.
+window.onload = function () {
+    var deleteButtons = document.querySelectorAll('.open-modal');
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var id = this.getAttribute('data-id');
+            var confirmDeleteButton = document.getElementById('confirm-delete');
+            confirmDeleteButton.href = '/ToDoItem/Delete/' + id;
+        });
+    });
+};
+
+toastr.options = {
+    "timeOut": "5000" 
+}
+

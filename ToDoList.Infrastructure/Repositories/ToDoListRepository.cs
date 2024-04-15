@@ -24,8 +24,13 @@ namespace ToDoList.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<Domain.Entities.ToDoItem>> GetAllByDate(int month, int day)
-            => await _dbContext.DoToItems.Where(x => x.Date.Month.Equals(month) && x.Date.Day.Equals(day)).ToListAsync();
+        public async Task<IEnumerable<Domain.Entities.ToDoItem>> GetAllByDate(int month, int day = 0)
+        {
+            if (day != 0)
+                return await _dbContext.DoToItems.Where(x => x.Date.Month.Equals(month) && x.Date.Day.Equals(day)).ToListAsync();
+
+            else return await _dbContext.DoToItems.Where(x => x.Date.Month.Equals(month)).ToListAsync();
+        }
 
         public async Task<ToDoItem> GetToDoItemById(int id) 
             => await _dbContext.DoToItems.Where(x => x.Id == id).FirstOrDefaultAsync();

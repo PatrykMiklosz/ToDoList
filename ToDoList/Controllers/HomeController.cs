@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Globalization;
 using ToDoList.Application.ToDoItem.Queries.GetAllToDoItems;
 using ToDoList.Models;
+using ToDoList.MVC.Extensions;
 
 namespace ToDoList.Controllers
 {
@@ -17,9 +19,15 @@ namespace ToDoList.Controllers
             _logger = logger;
         }
 
-        public async Task <IActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var toDoItems = await _mediator.Send(new GetAllToDoItemsQuery());
+
+            if (toDoItems.Any(x => x.Date.Date.Equals(DateTime.Today)))
+            {
+                this.SetNotification("success", $"You have upcoming things to do today!");
+            }
+
             return View(toDoItems);
         }
 

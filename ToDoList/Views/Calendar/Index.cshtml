@@ -1,32 +1,15 @@
-﻿@using ToDoList.Application.ToDoItem;
-@model int
+﻿@model CalendarViewModel
 
-    @{
-        int year = DateTime.Now.Year;
-        int month = Model == 0 ? DateTime.Now.Month : Model;
+<div class="calendar-navigation">
 
-    DateTime selectedDate = new DateTime(year, month, 1);
+    <a class="fas fa-arrow-left" asp-controller="Calendar" asp-action="Index"
+       asp-route-month="@(Model.Month - 1 == 0 ? 12 : Model.Month - 1)" style="text-decoration: none; margin-right: 10px"></a>
 
-        DateTime firstDayOfMonth = new DateTime(selectedDate.Year, selectedDate.Month, 1);
+    <span>@Model.SelectedDate.ToString("MMMM yyyy")</span>
+    <a class="fas fa-arrow-right" asp-controller="Calendar" asp-action="Index"
+       asp-route-month="@(Model.Month + 1 > 12 ? 1 : Model.Month + 1)" style="text-decoration: none; margin-left: 10px"></a>
 
-        int daysInWeek = Enum.GetNames(typeof(DayOfWeek)).Length;
-
-        int dayOfWeek = ((int)firstDayOfMonth.DayOfWeek - 1 + daysInWeek) % daysInWeek;
-
-        int daysInMonth = DateTime.DaysInMonth(selectedDate.Year, selectedDate.Month);
-
-        DateTime prevMonth = firstDayOfMonth.AddMonths(-1);
-        DateTime nextMonth = firstDayOfMonth.AddMonths(1);
-    }
-
-    <div class="calendar-navigation">
-
-    <a class="fas fa-arrow-left" asp-controller="Calendar" asp-action="Index" asp-route-month="@prevMonth.Month" style="text-decoration: none; margin-right: 10px"></a>
-
-        <span>@selectedDate.ToString("MMMM yyyy")</span>
-    <a class="fas fa-arrow-right" asp-controller="Calendar" asp-action="Index" asp-route-month="@nextMonth.Month" style="text-decoration: none; margin-left: 10px"></a>
-
-    </div>
+</div>
 
 <div class="calendar-container">
     <table class="calendar">
@@ -43,23 +26,27 @@
         </thead>
         <tbody>
             @{
-                int currentDay = 1 - dayOfWeek;
+                int currentDay = 1 - Model.DayOfWeek;
                 for (int week = 0; week < 6; week++)
                 {
                     <tr>
                         @for (int day = 0; day < 7; day++)
                         {
-                            string tdClass = currentDay >= 1 && currentDay <= daysInMonth ? "clickable" : "";
+                            string tdClass = currentDay >= 1 && currentDay <= Model.DaysInMonth ? "clickable" : "";
                             <td class="@tdClass" data-day="@currentDay">
-                                @if (currentDay >= 1 && currentDay <= daysInMonth)
+                                @if (currentDay >= 1 && currentDay <= Model.DaysInMonth)
                                 {
                                     @currentDay
+                                    @if (Model.DaysWithToDoItem.Contains(currentDay))
+                                    {
+                                        <p>Think to do!</p>
+                                    }
                                 }
                             </td>
                             currentDay++;
                         }
                     </tr>
-                    if (currentDay > daysInMonth)
+                    if (currentDay > Model.DaysInMonth)
                     {
                         break;
                     }
@@ -75,40 +62,11 @@
         cells.forEach(function (cell) {
             cell.addEventListener('click', function () {
                 var day = this.getAttribute('data-day');
-                window.location.href = '@Url.Action("DayDetails")' + '/' + @selectedDate.Month + '/' + day;
+                window.location.href = '@Url.Action("DayDetails")' + '/' + @Model.SelectedDate.Month + '/' + day;
             });
         });
     });
 </script>
 
-<style>
 
-    .calendar-navigation {
-        text-align: center;
-        margin-bottom: 10px;
-    }
-
-    .calendar-container {
-        width: 100%;
-        margin: auto;
-    }
-
-    .calendar {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-        .calendar th, .calendar td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-
-        .calendar td {
-            height: 50px;
-        }
-    .clickable {
-        cursor: pointer;
-    }
-</style>
 
